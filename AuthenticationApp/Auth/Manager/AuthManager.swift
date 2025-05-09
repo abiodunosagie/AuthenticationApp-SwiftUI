@@ -47,4 +47,13 @@ class AuthManager {
             print("DEBUG: SignOut error: \(error.localizedDescription)")
         }
     }
+    
+    func refreshUser() async {
+        do {
+            self.currentUser = try await authService.getCurrentUser()
+        } catch {
+            print("Refresh user error: \(error)")
+            currentUser = nil
+        }
+    }
 }

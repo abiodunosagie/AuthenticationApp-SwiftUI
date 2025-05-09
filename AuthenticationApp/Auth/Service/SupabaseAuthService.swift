@@ -45,5 +45,16 @@ struct SupabaseAuthService {
     func signOut() async throws {
         try await client.auth.signOut()
     }
+    
+    // check if our user is logged in already
+    func getCurrentUser() async throws -> User? {
+        let supabaseUser = try await client.auth.session.user
+        
+        guard let email = supabaseUser.email else {
+            print("DEBUG: No Email!")
+            throw  NSError()
+        }
+        return User(id: supabaseUser.aud, email: email)
+    }
 }
 
